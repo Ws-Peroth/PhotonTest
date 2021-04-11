@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 
-public class PhotonInit : Photon.MonoBehaviour
+public class PhotonInit : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
