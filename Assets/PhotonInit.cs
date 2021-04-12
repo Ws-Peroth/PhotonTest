@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 
-public class PhotonInit : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+using Photon.Realtime;
 
-    // Update is called once per frame
-    void Update()
+public class PhotonInit : Photon.Pun.MonoBehaviourPun
+{
+    void Awake()
     {
-        
+
     }
 }
