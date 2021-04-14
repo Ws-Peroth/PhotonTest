@@ -8,6 +8,8 @@ using Photon.Realtime;
 public class NetworkManage : MonoBehaviourPunCallbacks
 {
     public string playerName;
+    [SerializeField] GameObject DisconnectPanel;
+    [SerializeField] GameObject RespawnPanel;
 
     private void Awake()
     {
@@ -26,5 +28,24 @@ public class NetworkManage : MonoBehaviourPunCallbacks
             ("Room", 
             new RoomOptions { MaxPlayers = 2}, 
             null);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        DisconnectPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) 
+            && PhotonNetwork.IsConnected) {
+            PhotonNetwork.Disconnect();
+        }
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        DisconnectPanel.SetActive(true);
+        RespawnPanel.SetActive(false);
     }
 }
