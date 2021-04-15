@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using Cinemachine;
 
 public class Player : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -23,14 +22,6 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         // 닉네임
         NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
         NickNameText.color = PV.IsMine ? Color.green : Color.red;
-
-        if (PV.IsMine)
-        {
-            // 2D 카메라
-            var CM = GameObject.Find("CMCamera").GetComponent<CinemachineVirtualCamera>();
-            CM.Follow = transform;
-            CM.LookAt = transform;
-        }
     }
 
 
