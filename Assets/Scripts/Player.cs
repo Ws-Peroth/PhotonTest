@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-
 public class Player : MonoBehaviourPunCallbacks, IPunObservable
 {
     public Rigidbody2D RB;
