@@ -31,10 +31,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         DisconnectPanel.SetActive(false);
         // StartCoroutine("DestroyBullet");
-        // Spawn();
+         Spawn();
     }
 
-    /*
+    
     IEnumerator DestroyBullet()
     {
         yield return new WaitForSeconds(0.2f);
@@ -50,7 +50,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-6f, 19f), 4, 0), Quaternion.identity);
         RespawnPanel.SetActive(false);
     }
-    */
+
     void Update() { if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected) PhotonNetwork.Disconnect(); }
 
     public override void OnDisconnected(DisconnectCause cause)
