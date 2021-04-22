@@ -12,13 +12,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public InputField nickNameInput;
     public GameObject disconnectPanel;
     public GameObject respawnPanel;
+    public GameObject howToPlayPanel;
     public GameObject panelBundle;
     public Transform mainCameraParent;
 
 
     void Awake()
     {
-
         if(networkManager == null)
         {
             networkManager = this;
@@ -31,6 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         panelBundle.SetActive(true);
         disconnectPanel.SetActive(true);
         respawnPanel.SetActive(false);
+        howToPlayPanel.SetActive(false);
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
@@ -38,7 +39,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.LocalPlayer.NickName = nickNameInput.text;
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 20 }, null);
     }
 
     public override void OnJoinedRoom()
@@ -72,15 +73,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected)
         {
-            SettingCameraWhenDisconnect();
+            SettingObjectsBeforeDisconnect();
             PhotonNetwork.Disconnect();
         }
     }
 
-    public void SettingCameraWhenDisconnect()
+    public void SettingObjectsBeforeDisconnect()
     {
         Camera.main.transform.SetParent(mainCameraParent);
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        panelBundle.SetActive(true);
+        respawnPanel.SetActive(true);
+        disconnectPanel.SetActive(false);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -89,4 +93,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         respawnPanel.SetActive(false);
     }
     
+    public void OpenHowToPlay()
+    {
+        howToPlayPanel.SetActive(true);
+    }
+    public void ExitHowToPlay()
+    {
+        howToPlayPanel.SetActive(false);
+    }
 }

@@ -87,7 +87,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
             {
                 panel.gameObject.SetActive(true);
             }
-            NetworkManager.networkManager.SettingCameraWhenDisconnect();
+            NetworkManager.networkManager.SettingObjectsBeforeDisconnect();
             PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered); // AllBuffered로 해야 제대로 사라져 복제버그가 안 생긴다
         }
     }
