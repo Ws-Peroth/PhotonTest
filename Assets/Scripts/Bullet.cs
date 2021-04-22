@@ -15,17 +15,15 @@ public class Bullet : MonoBehaviourPunCallbacks
 
     void OnTriggerEnter2D(Collider2D col) // col을 RPC의 매개변수로 넘겨줄 수 없다
     {
-        if (col.tag == "Ground") PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        if (col.tag == "Ground") PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
         if (!PV.IsMine && col.tag == "Player" && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
             col.GetComponent<Player>().Hit();
-            PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
         }
     }
 
-    [PunRPC]
-    void DirRPC(int dir) => this.dir = dir;
+    [PunRPC] public void DirRPC(int dir) => this.dir = dir;
 
-    [PunRPC]
-    void DestroyRPC() => Destroy(gameObject);
+    [PunRPC] public void DestroyRPC() => Destroy(gameObject);
 }

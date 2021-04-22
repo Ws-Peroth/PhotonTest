@@ -178,7 +178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7421452353678987458, guid: 1c07ab80d81682e4f8072965201029ef,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -221,7 +221,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 8461081869329522299}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2543e370820b2f846bc8877719a8927f, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   - {fileID: 8461081869329522276}
   - {fileID: 8461081869329522274}
   - {fileID: 8461081869329522273}
-  sceneViewId: 1
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8461081869329522274

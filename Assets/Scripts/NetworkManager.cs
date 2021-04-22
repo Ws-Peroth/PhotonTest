@@ -7,56 +7,86 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    public InputField NickNameInput;
-    public GameObject DisconnectPanel;
-    public GameObject RespawnPanel;
+    public static NetworkManager networkManager = null;
+
+    public InputField nickNameInput;
+    public GameObject disconnectPanel;
+    public GameObject respawnPanel;
+    public GameObject panelBundle;
+    public Transform mainCameraParent;
 
 
     void Awake()
     {
+
+        if(networkManager == null)
+        {
+            networkManager = this;
+        }
+
         Screen.SetResolution(960, 540, false);
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
+
+        panelBundle.SetActive(true);
+        disconnectPanel.SetActive(true);
+        respawnPanel.SetActive(false);
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
+        PhotonNetwork.LocalPlayer.NickName = nickNameInput.text;
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null);
     }
 
     public override void OnJoinedRoom()
     {
-        DisconnectPanel.SetActive(false);
-        // StartCoroutine("DestroyBullet");
-         Spawn();
+        disconnectPanel.SetActive(false);
+        StartCoroutine(nameof(DestroyBullet));
+        Spawn();
     }
 
-    
+
     IEnumerator DestroyBullet()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return null;
 
         foreach (GameObject GO in GameObject.FindGameObjectsWithTag("Bullet"))
         {
-            GO.GetComponent<PhotonView>().RPC("DestroyRPC", RpcTarget.All);
+            GO.GetComponent<PhotonView>().RPC(nameof(Bullet.DestroyRPC), RpcTarget.All);
         }
+
     }
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-6f, 19f), 4, 0), Quaternion.identity);
-        RespawnPanel.SetActive(false);
+        GameObject player = PhotonNetwork.Instantiate(nameof(Player), new Vector3(0f, 4, 0), Quaternion.identity);
+        Camera.main.transform.SetParent(player.transform);
+        Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        respawnPanel.SetActive(false);
     }
 
-    void Update() { if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected) PhotonNetwork.Disconnect(); }
+    void Update() {
+
+        if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected)
+        {
+            SettingCameraWhenDisconnect();
+            PhotonNetwork.Disconnect();
+        }
+    }
+
+    public void SettingCameraWhenDisconnect()
+    {
+        Camera.main.transform.SetParent(mainCameraParent);
+        Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+    }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        DisconnectPanel.SetActive(true);
-        RespawnPanel.SetActive(false);
+        disconnectPanel.SetActive(true);
+        respawnPanel.SetActive(false);
     }
     
 }
