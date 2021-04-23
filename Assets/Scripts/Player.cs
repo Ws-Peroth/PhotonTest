@@ -55,10 +55,12 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
             // 스페이스 총알 발사
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                PhotonNetwork.Instantiate( nameof(Bullet), 
-                    transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0), 
-                    Quaternion.identity).GetComponent<PhotonView>().
-                    RPC(nameof(Bullet.DirRPC), RpcTarget.All, SR.flipX ? -1 : 1);
+                 PhotonNetwork.Instantiate( 
+                    nameof(Bullet), // object Name
+                    transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0), // Vector Position
+                    Quaternion.identity).GetComponent<PhotonView>().RPC(nameof(Bullet.DirRPC), // Quaternion Rotation
+                    RpcTarget.All, // 
+                    SR.flipX ? -1 : 1); //
 
                 AN.SetTrigger("shot");
             }
