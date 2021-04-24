@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -9,9 +10,16 @@ public class Bullet : MonoBehaviourPunCallbacks
     public PhotonView PV;
     int dir;
 
-    void Start() => Destroy(gameObject, 3.5f);
+    public void Start()
+    {
+        GetComponent<SpriteRenderer>().flipX = dir < 0;
+        // Destroy(gameObject, 3.5f);
+    }
 
-    void Update() => transform.Translate(Vector3.right * 7 * Time.deltaTime * dir);
+    void Update()
+    {
+        transform.Translate(Vector3.right * NetworkManager.networkManager.bulletSpeed * Time.deltaTime * dir);
+    }
 
     void OnTriggerEnter2D(Collider2D col) // col을 RPC의 매개변수로 넘겨줄 수 없다
     {

@@ -16,10 +16,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject panelBundle;
     public Transform mainCameraParent;
 
+    public GameObject PlayerUI;
+    public Image HpBarUI;
+    public Text HpText;
+
+    public int bulletSpeed;
+    public float shotDelay;
 
     void Awake()
     {
-        if(networkManager == null)
+        bulletSpeed = 8;
+        shotDelay = 0.1f;
+
+        if (networkManager == null)
         {
             networkManager = this;
         }
@@ -32,6 +41,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         disconnectPanel.SetActive(true);
         respawnPanel.SetActive(false);
         howToPlayPanel.SetActive(false);
+        PlayerUI.SetActive(false);
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
@@ -63,10 +73,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        GameObject player = PhotonNetwork.Instantiate(nameof(Player), new Vector3(0f, 4, 0), Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(nameof(Player), new Vector3(1.5f, 20, 0), Quaternion.identity);
         Camera.main.transform.SetParent(player.transform);
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         respawnPanel.SetActive(false);
+        PlayerUI.SetActive(true);
+        HpBarUI.fillAmount = 1f;
     }
 
     void Update() {
@@ -80,11 +92,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SettingObjectsBeforeDisconnect()
     {
+        PlayerUI.SetActive(false);
         Camera.main.transform.SetParent(mainCameraParent);
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         panelBundle.SetActive(true);
         respawnPanel.SetActive(true);
         disconnectPanel.SetActive(false);
+
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -100,5 +114,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void ExitHowToPlay()
     {
         howToPlayPanel.SetActive(false);
+    }
+
+    public void SetPlayerHp()
+    {
+        HpBarUI.fillAmount -= 0.1f;
+        HpText.text = (int)(HpBarUI.fillAmount * 100) + " / 100";
     }
 }

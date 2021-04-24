@@ -60,7 +60,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 15
   m_TargetDisplay: 0
 --- !u!114 &8461081868796718471
 MonoBehaviour:
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 15
   m_Sprite: {fileID: 7421452353678987458, guid: 1c07ab80d81682e4f8072965201029ef,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -210,7 +210,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &8461081869329522300
 CapsuleCollider2D:
@@ -265,6 +265,7 @@ MonoBehaviour:
   PV: {fileID: 8461081869329522275}
   NickNameText: {fileID: 8461081870680144984}
   HealthImage: {fileID: 8461081870413460943}
+  isShot: 0
 --- !u!114 &8461081869329522275
 MonoBehaviour:
   m_ObjectHideFlags: 0
