@@ -25,7 +25,7 @@ public class ObjectManager : MonoBehaviour
 
         if (bulletPool.Count == 0)
         {
-            bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0),
+            bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3( 0, -0.11f, 0),
                   Quaternion.identity);
         }
         else
