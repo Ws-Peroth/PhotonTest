@@ -74,8 +74,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Spawn()
     {
         GameObject player = PhotonNetwork.Instantiate(nameof(Player), new Vector3(1.5f, 20, 0), Quaternion.identity);
-        Camera.main.transform.SetParent(player.transform);
-        Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        CameraMove.cameraMoveManager.player = player;
         respawnPanel.SetActive(false);
         PlayerUI.SetActive(true);
         HpBarUI.fillAmount = 1f;
@@ -93,12 +92,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void SettingObjectsBeforeDisconnect()
     {
         PlayerUI.SetActive(false);
-        Camera.main.transform.SetParent(mainCameraParent);
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         panelBundle.SetActive(true);
         respawnPanel.SetActive(true);
         disconnectPanel.SetActive(false);
-
     }
 
     public override void OnDisconnected(DisconnectCause cause)

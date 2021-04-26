@@ -13,7 +13,6 @@ public class Bullet : MonoBehaviourPunCallbacks
     public void Start()
     {
         GetComponent<SpriteRenderer>().flipX = dir < 0;
-        // Destroy(gameObject, 3.5f);
     }
 
     void Update()
