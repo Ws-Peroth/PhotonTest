@@ -60,8 +60,14 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         {
             isShot = true;
 
-            GameObject bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0),
-               Quaternion.identity);
+            // GameObject bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0), Quaternion.identity);
+            GameObject bullet = ObjectManager.objectManager.InstantiateBullet();
+
+            // bullet Initialization
+            bullet.GetComponent<SpriteRenderer>().flipX = this.GetComponent<SpriteRenderer>().flipX;
+            bullet.transform.localPosition = this.transform.localPosition;
+            bullet.transform.position = bullet.transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0);
+            bullet.transform.rotation = Quaternion.identity;
 
             bullet.GetComponent<PhotonView>().RPC(nameof(Bullet.DirRPC), RpcTarget.All, SR.flipX ? -1 : 1);
 

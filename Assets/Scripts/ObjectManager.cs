@@ -19,22 +19,31 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    public GameObject GetBullet()
+    public GameObject InstantiateBullet()
     {
         GameObject bullet = null;
 
         if (bulletPool.Count == 0)
         {
-            bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3( 0, -0.11f, 0),
-                  Quaternion.identity);
+            bullet = PhotonNetwork.Instantiate(
+                nameof(Bullet),
+                transform.position + new Vector3( 0, -0.11f, 0),
+                Quaternion.identity);
         }
         else
         {
             bullet = bulletPool.Dequeue();
         }
 
+        bullet.SetActive(true);
+
         return bullet;
     }
 
+    public void DestroyBullet(GameObject bullet)
+    {
+        bullet.SetActive(false);
+        bulletPool.Enqueue(bullet);
+    }
 
 }

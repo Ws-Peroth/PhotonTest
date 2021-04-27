@@ -35,5 +35,5 @@ public class Bullet : MonoBehaviourPunCallbacks
 
     [PunRPC] public void DirRPC(int dir) => this.dir = dir;
 
-    [PunRPC] public void DestroyRPC() => Destroy(gameObject);
+    [PunRPC] public void DestroyRPC() => ObjectManager.objectManager.DestroyBullet(gameObject);
 }
