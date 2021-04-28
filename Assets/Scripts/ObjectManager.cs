@@ -8,6 +8,7 @@ using Photon.Chat;
 
 public class ObjectManager : MonoBehaviour
 {
+    public PhotonView objMgrPhotoneView;
     public static ObjectManager objectManager = null;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
 
@@ -35,15 +36,22 @@ public class ObjectManager : MonoBehaviour
             bullet = bulletPool.Dequeue();
         }
 
-        bullet.SetActive(true);
+        // bullet.SetActive(true);
+        objMgrPhotoneView.RPC(nameof(SetActiveStatus), RpcTarget.AllBuffered, false, bullet);
 
         return bullet;
     }
-
+    
     public void DestroyBullet(GameObject bullet)
     {
-        bullet.SetActive(false);
+        // bullet.SetActive(false);
+        objMgrPhotoneView.RPC(nameof(SetActiveStatus), RpcTarget.AllBuffered, false, bullet);
         bulletPool.Enqueue(bullet);
+    }
+
+    [PunRPC] public void SetActiveStatus(bool status, GameObject obj)
+    {
+        obj.SetActive(status);
     }
 
 }
