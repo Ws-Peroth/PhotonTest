@@ -36,22 +36,27 @@ public class ObjectManager : MonoBehaviour
             bullet = bulletPool.Dequeue();
         }
 
-        // bullet.SetActive(true);
-        objMgrPhotoneView.RPC(nameof(SetActiveStatus), RpcTarget.AllBuffered, false, bullet);
+        BulletActiveTrue(bullet);
 
         return bullet;
     }
     
     public void DestroyBullet(GameObject bullet)
     {
-        // bullet.SetActive(false);
-        objMgrPhotoneView.RPC(nameof(SetActiveStatus), RpcTarget.AllBuffered, false, bullet);
+        BulletActiveFalse(bullet);
         bulletPool.Enqueue(bullet);
     }
 
-    [PunRPC] public void SetActiveStatus(bool status, GameObject obj)
+    public void BulletActiveTrue(GameObject obj)
     {
-        obj.SetActive(status);
+        obj.SetActive(true);
+        obj.GetComponent<Bullet>().ChangeBulletStatus(true);
+    }
+
+    public void BulletActiveFalse(GameObject obj)
+    {
+        obj.GetComponent<Bullet>().ChangeBulletStatus(false);
+        obj.SetActive(false);
     }
 
 }

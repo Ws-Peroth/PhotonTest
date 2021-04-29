@@ -5,10 +5,11 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Bullet : MonoBehaviourPunCallbacks
+public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
     int dir;
+    bool bulletStatus;
 
     public void Start()
     {
@@ -33,7 +34,27 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
     }
 
+    public void ChangeBulletStatus(bool newStatus)
+    {
+        bulletStatus = newStatus;
+    }
+
     [PunRPC] public void DirRPC(int dir) => this.dir = dir;
 
     [PunRPC] public void DestroyRPC() => ObjectManager.objectManager.DestroyBullet(gameObject);
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(bulletStatus);
+        }
+        else
+        {
+            transform.localPosition = (Vector3)stream.ReceiveNext();
+            bool status = (bool)stream.ReceiveNext();
+            gameObject.SetActive(status);
+        }
+    }
 }
