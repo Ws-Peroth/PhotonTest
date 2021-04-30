@@ -7,6 +7,9 @@ using Photon.Realtime;
 
 public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public GameObject MyPlayer;
+
+    public int checkPalyer;
     public PhotonView PV;
     int dir;
     bool bulletStatus;
@@ -29,8 +32,11 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!PV.IsMine && col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
-            col.GetComponent<Player>().Hit();
-            PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
+            if ( checkPalyer == col.GetComponent<Player>().id)
+            {
+                col.GetComponent<Player>().Hit();
+                PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
+            }
         }
     }
 

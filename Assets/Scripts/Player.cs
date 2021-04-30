@@ -14,6 +14,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
     public Text NickNameText;
     public Image HealthImage;
 
+    public int id;
     public bool isShot;
     bool isGround;
     Vector3 curPos;
@@ -86,6 +87,8 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
+            id = this.photonView.GetInstanceID();
+
             Move();
             Jump();
             Attack();
