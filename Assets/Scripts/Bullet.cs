@@ -32,8 +32,9 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!PV.IsMine && col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
-            if ( checkPalyer == col.GetComponent<Player>().id)
+            if ( checkPalyer != col.GetComponent<Player>().id)
             {
+                Debug.Log("Hit! (id : " + checkPalyer);
                 col.GetComponent<Player>().Hit();
                 PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
             }
@@ -60,7 +61,6 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
         {
             transform.localPosition = (Vector3)stream.ReceiveNext();
             bool status = (bool)stream.ReceiveNext();
-            gameObject.SetActive(status);
         }
     }
 }

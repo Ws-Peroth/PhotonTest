@@ -164,6 +164,7 @@ MonoBehaviour:
   PV: {fileID: 3118499773822445880}
   NickNameText: {fileID: 3118499774636215043}
   HealthImage: {fileID: 3118499774904205972}
+  id: 0
   isShot: 0
 --- !u!114 &3118499773822445880
 MonoBehaviour:

@@ -26,6 +26,8 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         NickNameText.color = PV.IsMine ? Color.green : Color.red;
         HealthImage.fillAmount = 1f;
         isShot = false;
+
+        id = this.photonView.ViewID;
     }
 
     void Move()
@@ -60,7 +62,6 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         if (!isShot && Input.GetKeyDown(KeyCode.Space))
         {
             isShot = true;
-
             // GameObject bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0), Quaternion.identity);
             GameObject bullet = ObjectManager.objectManager.InstantiateBullet();
 
@@ -69,7 +70,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
             bullet.transform.localPosition = this.transform.localPosition;
             bullet.transform.position = bullet.transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0);
             bullet.transform.rotation = Quaternion.identity;
-
+            bullet.GetComponent<Bullet>().checkPalyer = id; 
             bullet.GetComponent<PhotonView>().RPC(nameof(Bullet.DirRPC), RpcTarget.All, SR.flipX ? -1 : 1);
 
             AN.SetTrigger("shot");
@@ -87,8 +88,6 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            id = this.photonView.GetInstanceID();
-
             Move();
             Jump();
             Attack();
