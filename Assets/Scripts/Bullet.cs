@@ -41,26 +41,19 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void ChangeBulletStatus(bool newStatus)
-    {
-        bulletStatus = newStatus;
-    }
-
     [PunRPC] public void DirRPC(int dir) => this.dir = dir;
 
-    [PunRPC] public void DestroyRPC() => ObjectManager.objectManager.DestroyBullet(gameObject);
+    [PunRPC]
+    public void DestroyRPC()
+    {
+        PV.RPC(nameof(ObjectManager.objectManager.DestroyBullet), RpcTarget.AllBuffered, gameObject);
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
-        {
             stream.SendNext(transform.position);
-            stream.SendNext(bulletStatus);
-        }
         else
-        {
             transform.localPosition = (Vector3)stream.ReceiveNext();
-            bool status = (bool)stream.ReceiveNext();
-        }
     }
 }

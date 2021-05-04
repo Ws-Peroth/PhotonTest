@@ -41,22 +41,14 @@ public class ObjectManager : MonoBehaviour
         return bullet;
     }
     
-    public void DestroyBullet(GameObject bullet)
+    [PunRPC] public void DestroyBullet(GameObject bullet)
     {
-        BulletActiveFalse(bullet);
+        bullet.SetActive(false);
         bulletPool.Enqueue(bullet);
     }
 
     public void BulletActiveTrue(GameObject obj)
     {
         obj.SetActive(true);
-        obj.GetComponent<Bullet>().ChangeBulletStatus(true);
     }
-
-    public void BulletActiveFalse(GameObject obj)
-    {
-        obj.GetComponent<Bullet>().ChangeBulletStatus(false);
-        obj.SetActive(false);
-    }
-
 }
