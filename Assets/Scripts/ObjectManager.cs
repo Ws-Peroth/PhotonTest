@@ -41,7 +41,7 @@ public class ObjectManager : MonoBehaviour
         return bullet;
     }
     
-    [PunRPC] public void DestroyBullet(GameObject bullet)
+    public void DestroyBullet(GameObject bullet)
     {
         bullet.SetActive(false);
         bulletPool.Enqueue(bullet);

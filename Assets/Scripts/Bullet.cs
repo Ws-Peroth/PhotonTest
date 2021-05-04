@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void DestroyRPC()
     {
-        PV.RPC(nameof(ObjectManager.objectManager.DestroyBullet), RpcTarget.AllBuffered, gameObject);
+        Destroy(gameObject);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
