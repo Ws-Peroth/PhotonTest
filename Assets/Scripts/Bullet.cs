@@ -7,12 +7,11 @@ using Photon.Realtime;
 
 public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public GameObject MyPlayer;
-
-    public int checkPalyer;
     public PhotonView PV;
+    public GameObject MyPlayer;
+    public int checkPalyer;
+    public bool bulletStatus;
     int dir;
-    bool bulletStatus;
 
     public void Start()
     {
@@ -32,7 +31,7 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!PV.IsMine && col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
-            if ( checkPalyer != col.GetComponent<Player>().id)
+            if (checkPalyer != col.GetComponent<Player>().id)
             {
                 Debug.Log("Hit! (id : " + checkPalyer);
                 col.GetComponent<Player>().Hit();
@@ -46,16 +45,21 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void DestroyRPC()
     {
-        // Destroy(gameObject);
-        ObjectManager.objectManager.bulletPool.Enqueue(this.gameObject);
-        this.gameObject.SetActive(false);
+        ObjectManager.objectManager.bulletPool.Enqueue(gameObject);
+        bulletStatus = false;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
+        {
             stream.SendNext(transform.position);
+            stream.SendNext(gameObject.activeSelf);
+        }
         else
+        {
             transform.localPosition = (Vector3)stream.ReceiveNext();
+            gameObject.SetActive((bool)stream.ReceiveNext());
+        }
     }
 }

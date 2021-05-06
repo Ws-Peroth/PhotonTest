@@ -37,3 +37,4 @@ sysinfo.txt
 *.unitypackage
 
 /[Aa]ssets/Photon/
+/[Aa]ssets/Samples/

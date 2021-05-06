@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-
+using Cinemachine;
 public class Player : MonoBehaviourPunCallbacks, IPunObservable
 {
     public Rigidbody2D RB;
@@ -28,6 +28,15 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         isShot = false;
 
         id = this.photonView.ViewID;
+
+        if (PV.IsMine)
+        {
+            // 2D 카메라
+            var CM = GameObject.Find("CMCamera").GetComponent<CinemachineVirtualCamera>();
+            CM.Follow = transform;
+            CM.LookAt = transform;
+        }
+
     }
 
     void Move()

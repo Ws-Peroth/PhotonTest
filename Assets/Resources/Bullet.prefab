@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20af666d8723442408f9a30eaf0bcf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 2685595705324045062}
   MyPlayer: {fileID: 0}
   checkPalyer: 0
-  PV: {fileID: 2685595705324045062}
+  bulletStatus: 0
