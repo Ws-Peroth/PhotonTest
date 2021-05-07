@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
     public PhotonView PV;
     public GameObject MyPlayer;
     public int checkPalyer;
-    public bool bulletStatus;
+    // public bool bulletStatus;
     int dir;
 
     public void Start()
@@ -33,20 +33,20 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (checkPalyer != col.GetComponent<Player>().id)
             {
-                Debug.Log("Hit! (id : " + checkPalyer);
                 col.GetComponent<Player>().Hit();
                 PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
             }
         }
     }
 
-    [PunRPC] public void DirRPC(int dir) => this.dir = dir;
-
-    [PunRPC]
-    public void DestroyRPC()
+    [PunRPC] public void DirRPC(int dir)
     {
-        ObjectManager.objectManager.bulletPool.Enqueue(gameObject);
-        bulletStatus = false;
+        this.dir = dir;
+    }
+
+    [PunRPC] public void DestroyRPC()
+    {
+        Destroy(this.gameObject);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -54,12 +54,10 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(gameObject.activeSelf);
         }
         else
         {
             transform.localPosition = (Vector3)stream.ReceiveNext();
-            gameObject.SetActive((bool)stream.ReceiveNext());
         }
     }
 }

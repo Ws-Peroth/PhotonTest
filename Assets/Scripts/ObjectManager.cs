@@ -34,16 +34,22 @@ public class ObjectManager : MonoBehaviour
         else
         {
             bullet = bulletPool.Dequeue();
+            if(bullet == null)
+            {
+                Destroy(bullet);
+                bullet = PhotonNetwork.Instantiate(
+                nameof(Bullet),
+                transform.position + new Vector3(0, -0.11f, 0),
+                Quaternion.identity);
+            }
         }
-
         BulletActiveTrue(bullet);
-
         return bullet;
     }
 
     public void BulletActiveTrue(GameObject obj)
     {
         obj.SetActive(true);
-        obj.GetComponent<Bullet>().bulletStatus = true;
+        // obj.GetComponent<Bullet>().bulletStatus = true;
     }
 }
