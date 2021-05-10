@@ -148,4 +148,3 @@ MonoBehaviour:
   PV: {fileID: 2685595705324045062}
   MyPlayer: {fileID: 0}
   checkPalyer: 0
-  bulletStatus: 0
