@@ -8,7 +8,6 @@ using Photon.Chat;
 
 public class ObjectManager : MonoBehaviour
 {
-    public PhotonView objMgrPhotoneView;
     public static ObjectManager objectManager = null;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
 
@@ -48,6 +47,14 @@ public class ObjectManager : MonoBehaviour
         return bullet;
     }
 
+    public void DestroyBullet(GameObject bullet)
+    {
+        bulletPool.Enqueue(bullet);
+        bullet.GetComponent<Bullet>().checkPalyer = 0;
+        bullet.GetComponent<Bullet>().MyPlayer = null;
+        bullet.SetActive(false);
+    }
+
     public void BulletInitialization(GameObject obj, GameObject player)
     {
         bool isFlipX = player.GetComponent<SpriteRenderer>().flipX;
@@ -58,8 +65,6 @@ public class ObjectManager : MonoBehaviour
         obj.transform.position = player.transform.position + new Vector3(isFlipX ? -0.4f : 0.4f, -0.11f, 0);
         obj.transform.rotation = Quaternion.identity;
         obj.GetComponent<Bullet>().checkPalyer = player.GetComponent<Player>().id;
-        obj.GetComponent<PhotonView>().RPC(nameof(Bullet.DirRPC), RpcTarget.All, isFlipX ? -1 : 1);
-
-        // obj.GetComponent<Bullet>().bulletStatus = true;
+        obj.GetComponent<Bullet>().SetDir(isFlipX ? -1 : 1);
     }
 }

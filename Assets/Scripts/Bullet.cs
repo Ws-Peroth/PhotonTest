@@ -5,18 +5,11 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
+public class Bullet : MonoBehaviour
 {
-    public PhotonView PV;
     public GameObject MyPlayer;
     public int checkPalyer;
-    // public bool bulletStatus;
     int dir;
-
-    public void Start()
-    {
-        GetComponent<SpriteRenderer>().flipX = dir < 0;
-    }
 
     void Update()
     {
@@ -26,38 +19,27 @@ public class Bullet : MonoBehaviourPunCallbacks, IPunObservable
     void OnTriggerEnter2D(Collider2D col) // col을 RPC의 매개변수로 넘겨줄 수 없다
     {
         if (col.CompareTag("Ground")) {
-            PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
+            CallDestroyBullet();
         }
 
-        if (!PV.IsMine && col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
+        if (col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
             if (checkPalyer != col.GetComponent<Player>().id)
             {
                 col.GetComponent<Player>().Hit();
-                PV.RPC(nameof(DestroyRPC), RpcTarget.AllBuffered);
+                CallDestroyBullet();
             }
         }
     }
 
-    [PunRPC] public void DirRPC(int dir)
+    public void SetDir(int dir)
     {
         this.dir = dir;
     }
 
-    [PunRPC] public void DestroyRPC()
+    public void CallDestroyBullet()
     {
-        Destroy(this.gameObject);
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-        }
-        else
-        {
-            transform.localPosition = (Vector3)stream.ReceiveNext();
-        }
+        ObjectManager.objectManager.DestroyBullet(gameObject);
+        // Destroy(this.gameObject);
     }
 }
