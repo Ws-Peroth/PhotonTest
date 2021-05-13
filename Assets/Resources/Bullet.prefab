@@ -147,3 +147,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 0}
   checkPalyer: 0
+  bulletStatus: 0
