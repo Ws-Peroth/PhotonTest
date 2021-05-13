@@ -50,7 +50,6 @@ public class ObjectManager : MonoBehaviour
     public void DestroyBullet(GameObject bullet)
     {
         bulletPool.Enqueue(bullet);
-        bullet.GetComponent<Bullet>().checkPalyer = 0;
         bullet.GetComponent<Bullet>().MyPlayer = null;
         bullet.SetActive(false);
     }
@@ -59,12 +58,13 @@ public class ObjectManager : MonoBehaviour
     {
         bool isFlipX = player.GetComponent<SpriteRenderer>().flipX;
         obj.SetActive(true);
+        obj.GetComponent<Bullet>().checkPlayer = player.GetComponent<Player>().id;
+        
 
         obj.GetComponent<SpriteRenderer>().flipX = isFlipX;
         obj.transform.localPosition = player.transform.localPosition;
         obj.transform.position = player.transform.position + new Vector3(isFlipX ? -0.4f : 0.4f, -0.11f, 0);
         obj.transform.rotation = Quaternion.identity;
-        obj.GetComponent<Bullet>().checkPalyer = player.GetComponent<Player>().id;
         obj.GetComponent<Bullet>().SetDir(isFlipX ? -1 : 1);
     }
 }

@@ -27,7 +27,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         HealthImage.fillAmount = 1f;
         isShot = false;
 
-        id = this.photonView.ViewID;
+        id = PV.ViewID;
 
         if (PV.IsMine)
         {
@@ -73,6 +73,8 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
             isShot = true;
             // GameObject bullet = PhotonNetwork.Instantiate(nameof(Bullet), transform.position + new Vector3(SR.flipX ? -0.4f : 0.4f, -0.11f, 0), Quaternion.identity);
             GameObject bullet = ObjectManager.objectManager.InstantiateBullet(gameObject);
+            bullet.GetComponent<Bullet>().checkPlayer = id;
+            print("obj.PV : " + bullet.GetComponent<PhotonView>().ViewID + "\nobj.CheckPlayer : " + bullet.GetComponent<Bullet>().checkPlayer + "\nPlayereID : " + id);
 
             AN.SetTrigger("shot");
             Invoke(nameof(ResetShotDelay), NetworkManager.networkManager.shotDelay);

@@ -66,7 +66,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject GO in GameObject.FindGameObjectsWithTag("Bullet"))
         {
-            GO.GetComponent<PhotonView>().RPC(nameof(Bullet.CallDestroyBullet), RpcTarget.All);
+            // GO.GetComponent<PhotonView>().RPC(nameof(Bullet.CallDestroyBullet), RpcTarget.All);
+            ObjectManager.objectManager.DestroyBullet(GO);
         }
 
     }

@@ -8,7 +8,7 @@ using Photon.Realtime;
 public class Bullet : MonoBehaviour
 {
     public GameObject MyPlayer;
-    public int checkPalyer;
+    public int checkPlayer;
     int dir;
 
     void Update()
@@ -24,8 +24,9 @@ public class Bullet : MonoBehaviour
 
         if (col.CompareTag("Player") && col.GetComponent<PhotonView>().IsMine) // 느린쪽에 맞춰서 Hit판정
         {
-            if (checkPalyer != col.GetComponent<Player>().id)
+            if (checkPlayer != col.GetComponent<Player>().id)
             {
+                print("chectPlayer : " + checkPlayer + "\nHitPlayerID : " + col.GetComponent<Player>().id);
                 col.GetComponent<Player>().Hit();
                 CallDestroyBullet();
             }
