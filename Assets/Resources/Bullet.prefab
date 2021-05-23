@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2685595705324045065}
   - component: {fileID: 2685595705324045064}
   - component: {fileID: 2685595705324045063}
-  - component: {fileID: 2685595705324045062}
+  - component: {fileID: 8112617059794576735}
   - component: {fileID: 7884539278482500866}
   m_Layer: 0
   m_Name: Bullet
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.2}
   m_EdgeRadius: 0
---- !u!114 &2685595705324045062
+--- !u!114 &8112617059794576735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7884539278482500866}
-  sceneViewId: 1
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7884539278482500866
@@ -145,5 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20af666d8723442408f9a30eaf0bcf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 8112617059794576735}
   MyPlayer: {fileID: 0}
   checkPlayer: 0

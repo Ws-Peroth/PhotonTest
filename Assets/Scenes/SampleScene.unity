@@ -1653,7 +1653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c6fc758e618cf4eab8f133342e39bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objMgrPhotoneView: {fileID: 752064124}
 --- !u!4 &752064123
 Transform:
   m_ObjectHideFlags: 0
